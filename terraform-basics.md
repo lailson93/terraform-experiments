@@ -97,3 +97,38 @@ terraform taint resource.id
 ```
 
 The correct resource and ID to taint this resource would be `terraform taint aws_instance.example`.
+
+### Store remote state
+
+- Sign up for Terraform Cloud and create one organization: `https://app.terraform.io/`
+
+To store remote state, we have to create a file `backend.tf` with the following lines:
+
+For exemple, the following lignes indicate one organization 'lailson_' and the workspace where the state will be stored.
+
+```
+terraform {
+  backend "remote" {
+    organization = "lailson_"
+
+    workspaces {
+      name = "ec2-example-workspace"
+    }
+  }
+}
+
+```
+
+Nb.: we have to create the following variables in the same workspace if the provider is aws: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY. We also have to create ou edit the file `~/.terraformrc` with the lines:
+
+```
+credentials "app.terraform.io" {
+  token = "changme"
+}
+
+### to get the token : https://app.terraform.io/app/settings/tokens
+```
+
+
+
+
